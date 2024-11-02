@@ -1,77 +1,61 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>义川工作室页面</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .search-bar {
-            margin-top: 20px;
-            width: 300px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .search-bar input {
-            width: calc(100% - 40px);
-            padding: 5px;
-            border: none;
-            outline: none;
-        }
-        .search-bar button {
-            width: 40px;
-            height: 30px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-        }
-        .clock {
-            margin-top: 40px;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .ip-address {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-    </style>
+<meta charset="utf-8">
+<title>响应式个人介绍网页</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<link rel="stylesheet" href="css/normalize.min.css">
+<link rel="stylesheet" href="css/swiper.min.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <div class="search-bar">
-        <input type="text" placeholder="搜索义川工作室" readonly onfocus="this.blur()">
-        <button>&search;</button>
-        <span style="margin-left: 10px; font-size: 16px; color: #333;">义川工作室</span>
+<div class="blog-slider">
+    <div class="blog-slider__wrp swiper-wrapper">
+        <div class="blog-slider__item swiper-slide">
+            <div class="blog-slider__img">
+                <img src="imgs/1.png" alt="个人博客">
+            </div>
+            <div class="blog-slider__content">
+                <span class="blog-slider__code">2018-08-31</span>
+                <div class="blog-slider__title">你好！我是义川</div>
+                <div class="blog-slider__text">欢迎来到义川工作室<br>现有业务 流量卡 物联卡 校园卡 随身WiFi PCDN</div>
+                <a href="#" class="blog-slider__button">进入</a>
+            </div>
+        </div>
+
+        <div class="blog-slider__item swiper-slide">
+            <div class="blog-slider__img">
+                <img src="imgs/2.png" alt="个人网站">
+            </div>
+            <div class="blog-slider__content">
+                <span class="blog-slider__code">2018-09-04</span>
+                <div class="blog-slider__title">我的个人博客</div>
+                <div class="blog-slider__text">建立于2024，致力于分享新知识。</div>
+                <a href="https://afqaq.com" class="blog-slider__button">进入</a>
+            </div>
+        </div>
+
+        <div class="blog-slider__item swiper-slide">
+            <div class="blog-slider__img">
+                <img src="imgs/3.png" alt="其他信息">
+            </div>
+            <div class="blog-slider__content">
+                <span class="blog-slider__code">2018-09-03</span>
+                <div class="blog-slider__title">其他信息</div>
+                <div class="blog-slider__text">可以添加多个自己的站点 方便游客访问。</div>
+                <a href="#" class="blog-slider__button">详情</a>
+            </div>
+        </div>
     </div>
-    <div class="clock" id="clock"></div>
-    <div class="ip-address" id="ip-address">本机IP地址: (此处为占位文本，实际需后端获取)</div>
+    <div class="blog-slider__pagination"></div>
+</div>
 
-    <script>
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-        }
+<script src="js/jquery.min.js"></script>
+<script src="js/swiper.min.js"></script>
+<script src="js/index.js"></script>
 
-        setInterval(updateClock, 1000);
-        updateClock(); // 立即执行一次以显示当前时间
-
-        // 由于安全限制，网页无法直接获取客户端的本机IP地址，这里仅作为占位示例
-        // 实际开发中，可以通过后端服务（如Node.js、PHP等）获取客户端IP地址，并通过Ajax等方式传递给前端显示
-    </script>
 </body>
+
 </html>
