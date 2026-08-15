@@ -13,11 +13,11 @@
           <small>义川先森 · 控制台</small>
         </div>
       </div>
-      <button class="admin-logout" id="logoutBtn">退出登录</button>
+      <button class="admin-logout" id="logoutBtn" style="display:none">退出登录</button>
     </header>
 
-    <!-- 登录区 -->
-    <section id="loginArea" class="admin-login">
+    <!-- 登录区（暂关闭密码校验，默认隐藏） -->
+    <section id="loginArea" class="admin-login" style="display:none">
       <div class="admin-login-card">
         <div class="admin-login-icon">🔐</div>
         <h2>欢迎回来</h2>
@@ -32,8 +32,8 @@
       </div>
     </section>
 
-    <!-- 管理面板 -->
-    <main id="adminPanel" class="admin-panel" style="display:none">
+    <!-- 管理面板（默认显示，无需登录） -->
+    <main id="adminPanel" class="admin-panel">
 
       <!-- 统计条 -->
       <div class="admin-stats">
@@ -244,90 +244,37 @@ function jsonHeaders() {
 }
 
 function checkAuth() {
-  const token = localStorage.getItem('admin_auth');
-  if (!token) {
-    document.getElementById('loginArea').style.display = 'flex';
-    document.getElementById('adminPanel').style.display = 'none';
-    return false;
-  }
+  // ⚠️ 2026-08-15：临时关闭密码校验，直接显示管理面板。
+  //   恢复密码时，用下面注释的「严格模式」代码替换。
   document.getElementById('loginArea').style.display = 'none';
   document.getElementById('adminPanel').style.display = 'block';
   loadArticles(); loadCategories(); loadFriends(); loadMessages(); loadResources(); loadAssets(); refreshStats();
   return true;
+
+  // ——— 严格模式（恢复密码时启用）———
+  // const token = localStorage.getItem('admin_auth');
+  // if (!token) {
+  //   document.getElementById('loginArea').style.display = 'flex';
+  //   document.getElementById('adminPanel').style.display = 'none';
+  //   return false;
+  // }
+  // document.getElementById('loginArea').style.display = 'none';
+  // document.getElementById('adminPanel').style.display = 'block';
+  // loadArticles(); loadCategories(); loadFriends(); loadMessages(); loadResources(); loadAssets(); refreshStats();
+  // return true;
 }
 
-/* ===== 登录 ===== */
+/* ===== 登录（暂关闭密码校验，事件监听保留 DOM 不报错，以后恢复密码直接用）===== */
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const tip = document.getElementById('loginTip');
-  tip.textContent = '验证中…'; tip.style.color = 'var(--text-3)';
-  // 清空之前的诊断区
-  const oldDiag = document.getElementById('loginDiag');
-  if (oldDiag) oldDiag.remove();
-  const pwdInput = document.getElementById('adminPassword');
-  const pwd = pwdInput.value;
-  if (!pwd) { tip.textContent = '请输入密码。'; tip.style.color = '#ef4444'; return; }
-  let useAuth = true;
-  try {
-    let res = await fetch(api + '/auth', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Admin-Password': pwd
-      },
-      body: '{}'
-    });
-    // 404 回退：老部署没有 /api/auth 路由，尝试老方案 DELETE guestbook?id=999999
-    if (res.status === 404) {
-      useAuth = false;
-      res = await fetch(api + '/guestbook?id=999999', {
-        method: 'DELETE',
-        headers: { 'X-Admin-Password': pwd }
-      });
-    }
-    let data = null;
-    try { data = await res.json(); } catch { data = null; }
-    console.log('[login] route=', useAuth ? 'POST /api/auth' : 'DELETE /guestbook fallback', 'status=', res.status, 'body=', data);
-    // 登录提示追加诊断区，方便肉眼判断
-    const diag = document.createElement('p');
-    diag.id = 'loginDiag';
-    diag.style.cssText = 'margin:10px 0 0;padding:10px 12px;border-radius:8px;background:#fef3c7;color:#92400e;font-size:12px;line-height:1.6;word-break:break-all;';
-    diag.innerHTML = '调试信息：接口 <strong>' + (useAuth ? 'POST /api/auth' : 'DELETE /guestbook 回退') + '</strong>，状态 <strong>' + res.status + '</strong>，响应：' +
-      (data ? JSON.stringify(data).slice(0, 200) : '（空）');
-    tip.parentNode.appendChild(diag);
-
-    if (res.status === 401) {
-      tip.textContent = (data && data.error) ? data.error : '密码错误，请重试。';
-      tip.style.color = '#ef4444'; return;
-    }
-    if (res.status === 500) {
-      tip.textContent = (data && data.error) || '服务端未配置密码，请在 Cloudflare Pages 后台设置 ADMIN_PASSWORD。';
-      tip.style.color = '#ef4444'; return;
-    }
-    if (!res.ok) {
-      tip.textContent = (data && data.error) || '验证失败（' + res.status + '），请重试。';
-      tip.style.color = '#ef4444'; return;
-    }
-    const encoded = encodePwd(pwd);
-    if (!encoded) { tip.textContent = '密码编码失败，请换一组字符。'; tip.style.color = '#ef4444'; return; }
-    localStorage.setItem('admin_auth', encoded);
-    tip.textContent = '登录成功，正在跳转…'; tip.style.color = '#10b981';
-    // 去掉诊断区（避免吓用户）
-    diag.remove();
-    setTimeout(() => { try { checkAuth(); } catch(err) { console.error('[login] checkAuth error', err); } }, 150);
-  } catch (err) {
-    console.error('[login] network error', err);
-    tip.textContent = '网络异常：' + (err && err.message ? err.message : '请检查网络后重试。');
-    tip.style.color = '#ef4444';
-    const diag = document.createElement('p');
-    diag.id = 'loginDiag';
-    diag.style.cssText = 'margin:10px 0 0;padding:10px 12px;border-radius:8px;background:#fee2e2;color:#991b1b;font-size:12px;line-height:1.6;word-break:break-all;';
-    diag.textContent = '调试信息：请求未到达服务器，请检查网络或 CORS 配置。错误详情：' + (err && err.message ? err.message : String(err));
-    tip.parentNode.appendChild(diag);
-  }
+  // ⚠️ 临时关闭：直接显示面板
+  document.getElementById('loginArea').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  loadArticles(); loadCategories(); loadFriends(); loadMessages(); loadResources(); loadAssets(); refreshStats();
 });
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
+  // ⚠️ 临时关闭：刷新页面
   localStorage.removeItem('admin_auth'); location.reload();
 });
 

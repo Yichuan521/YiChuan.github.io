@@ -34,16 +34,23 @@ export function extractPassword(request) {
 }
 
 /* ============ 鉴权核心（同步）============ */
-// 返回 { ok, response? }：ok=false 时 response 为 401/500，直接 return。
-// 同步 API，兼容现有调用方：const auth = requireAdmin(env, password); if (!auth.ok) return auth.response;
+// ⚠️ 2026-08-15：临时关闭密码校验，任何请求都视为已通过。
+//   以后要恢复密码，只需：
+//   1) 取消下面注释的「严格模式」3 行
+//   2) 删除「临时放行」的 return { ok: true }
+//   3) 恢复前端 yichuan.html 的登录表单和 checkAuth 逻辑
 export function requireAdmin(env, password) {
-  if (!env || !env[ENV_KEY]) {
-    return { ok: false, response: error('服务器未配置管理员密码（ADMIN_PASSWORD）。', 500, 'AUTH_NOT_CONFIGURED') };
-  }
-  if (!password || String(password) !== String(env[ENV_KEY])) {
-    return { ok: false, response: error('管理员密码错误。', 401, 'AUTH_INVALID') };
-  }
+  // ——— 临时关闭：所有请求直接通过 ———
   return { ok: true };
+
+  // ——— 严格模式（恢复密码时启用）———
+  // if (!env || !env[ENV_KEY]) {
+  //   return { ok: false, response: error('服务器未配置管理员密码（ADMIN_PASSWORD）。', 500, 'AUTH_NOT_CONFIGURED') };
+  // }
+  // if (!password || String(password) !== String(env[ENV_KEY])) {
+  //   return { ok: false, response: error('管理员密码错误。', 401, 'AUTH_INVALID') };
+  // }
+  // return { ok: true };
 }
 
 /* ============ timing-safe 比较（异步）============ */
@@ -68,14 +75,19 @@ async function timingSafeEqualStr(a, b) {
 // 异步用 timing-safe 比较，防时序攻击。
 export function withAuth(handler) {
   return async (ctx) => {
-    if (!ctx.env || !ctx.env[ENV_KEY]) {
-      return error('服务器未配置管理员密码（ADMIN_PASSWORD）。', 500, 'AUTH_NOT_CONFIGURED');
-    }
-    const password = extractPassword(ctx.request);
-    const valid = await timingSafeEqualStr(String(password || ''), String(ctx.env[ENV_KEY]));
-    if (!password || !valid) {
-      return error('管理员密码错误。', 401, 'AUTH_INVALID');
-    }
+    // ⚠️ 2026-08-15：临时关闭密码校验，直接放行执行 handler。
+    //   恢复密码时替换下面注释的「严格模式」代码。
     return handler(ctx);
+
+    // ——— 严格模式（恢复密码时启用）———
+    // if (!ctx.env || !ctx.env[ENV_KEY]) {
+    //   return error('服务器未配置管理员密码（ADMIN_PASSWORD）。', 500, 'AUTH_NOT_CONFIGURED');
+    // }
+    // const password = extractPassword(ctx.request);
+    // const valid = await timingSafeEqualStr(String(password || ''), String(ctx.env[ENV_KEY]));
+    // if (!password || !valid) {
+    //   return error('管理员密码错误。', 401, 'AUTH_INVALID');
+    // }
+    // return handler(ctx);
   };
 }
