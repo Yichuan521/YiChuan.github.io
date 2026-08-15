@@ -1,0 +1,73 @@
+<!-- 文件：index.html -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="义川先森的个人作品集与数字工作台">
+  <title>义川先森 · 个人网站</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="home" class="gh-home">
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="index.html">YUAN<span>·</span>LAB</a>
+      <button class="menu-button" type="button" aria-label="打开导航" aria-expanded="false"><i></i><i></i></button>
+      <nav class="site-nav" aria-label="主导航"><a href="index.html">首页</a><a href="about.html">关于</a><a href="projects.html">项目</a><a href="articles.html">文章</a><a href="resources.html">资源</a><a href="archive.html">归档</a><a href="guestbook.html">留言</a><a href="friends.html">友链</a></nav>
+      <div class="nav-actions"><button class="search-button" type="button" aria-label="搜索" title="搜索（Ctrl / ⌘ + K）"></button><button class="theme-button" type="button" aria-label="切换主题"><span></span></button></div>
+    </div>
+  </header>
+  <main>
+    <section class="launch-hero">
+      <div class="hero-orbit orbit-one" aria-hidden="true"></div><div class="hero-orbit orbit-two" aria-hidden="true"></div>
+      <div class="page-shell launch-layout">
+        <div class="launch-copy home-reveal"><p class="eyebrow">PERSONAL WORKSPACE / 2026</p><h1>从灵感，到<br><span>每一次提交。</span></h1><p>你好，我是 <b>义川先森</b>。我用原生 Web 和边缘能力，把好奇心打磨成真正可运行的数字体验。</p><div class="button-row"><a class="button button-primary" href="projects.html">探索作品 <b>→</b></a><a class="button button-secondary" href="about.html">认识我</a></div><div class="hero-proof"><span><i></i> AVAILABLE FOR COLLABORATION</span><span>BASED IN CHINA · ONLINE</span></div></div>
+        <div class="workbench home-reveal" id="workbench" aria-label="动态代码工作台">
+          <div class="workbench-top"><div class="traffic"><i></i><i></i><i></i></div><span>portfolio / currently-building.js</span><em id="workbenchState">LIVE</em></div>
+          <div class="code-area"><div class="code-numbers">01<br>02<br>03<br>04<br>05<br>06<br>07<br>08</div><pre><code><span class="code-key">const</span> curiosity = <span class="code-value">true</span>;
+
+<span class="code-key">function</span> <span class="code-fn">buildNext</span>(idea) {
+  <span class="code-key">return</span> <span class="code-value">{</span>
+    design: <span class="code-string">'clear'</span>,
+    code: <span class="code-string">'reliable'</span>,
+    status: <span id="typingLine" class="typing-line"></span>
+  <span class="code-value">}</span>;
+}</code></pre></div>
+          <div class="workbench-bottom"><span><b></b> all systems operational</span><span id="workbenchClock">--:--:--</span></div>
+        </div>
+      </div>
+      <div class="hero-scroll">SCROLL TO EXPLORE <span>↓</span></div>
+    </section>
+
+    <section class="story-section story-code page-shell home-reveal">
+      <div class="story-index">01 / THINK</div><div class="story-copy"><p class="eyebrow">TURN IDEAS INTO INTERFACES</p><h2>每一个好页面，<br>都从一个清晰的问题开始。</h2><p>我关心的不只是“能不能做”，还关心它是否自然、是否好理解，以及是否让人愿意多停留一会儿。</p><a class="text-link" href="about.html">了解我的工作方式 <span>→</span></a></div>
+      <div class="idea-stack" aria-label="交互式想法卡片"><article class="idea-card idea-back"><small>NOTE_03</small><strong>可访问性<br>也是美感</strong></article><article class="idea-card idea-mid"><small>NOTE_02</small><strong>细节决定<br>体验温度</strong></article><article class="idea-card idea-front" data-theme="0"><small id="ideaTag">NOTE_01</small><strong id="ideaText">先理解，再构建。</strong><button type="button" id="shuffleIdeas">换一张卡片 ↻</button></article></div>
+    </section>
+
+    <section class="story-section story-flow page-shell home-reveal">
+      <div class="book-scene" id="bookScene">
+        <div class="book-shadow"></div>
+        <div class="book" id="book" role="button" tabindex="0" aria-label="点击翻页">
+          <div class="book-cover book-cover-back"><span>WORKBOOK</span><em>v1.0</em></div>
+          <div class="book-page book-page-0"><div class="page-face page-face-front"><div class="page-num">01 / 04</div><div class="page-content"><h3>正在解决什么？</h3><p>从一个具体的问题出发，而不是从一个炫目的效果。把问题说清楚，答案才会有方向。</p><small class="page-tag">发现 · DISCOVER</small></div></div><div class="page-face page-face-back"><div class="page-back-num">01</div><div class="page-back-pattern"></div><div class="page-back-text">THINK</div></div></div>
+          <div class="book-page book-page-1"><div class="page-face page-face-front"><div class="page-num">02 / 04</div><div class="page-content"><h3>页面应该如何呼吸？</h3><p>安排信息的层次、留白的节奏与动效的语气，让用户自然而然地理解并做出行动。</p><small class="page-tag">设计 · DESIGN</small></div></div><div class="page-face page-face-back"><div class="page-back-num">02</div><div class="page-back-pattern"></div><div class="page-back-text">DESIGN</div></div></div>
+          <div class="book-page book-page-2"><div class="page-face page-face-front"><div class="page-num">03 / 04</div><div class="page-content"><h3>代码是否值得信任？</h3><p>可维护、可访问、可迭代——把工程的稳固，作为体验的地基。</p><small class="page-tag">构建 · BUILD</small></div></div><div class="page-face page-face-back"><div class="page-back-num">03</div><div class="page-back-pattern"></div><div class="page-back-text">BUILD</div></div></div>
+          <div class="book-page book-page-3"><div class="page-face page-face-front"><div class="page-num">04 / 04</div><div class="page-content"><h3>下一步怎样继续长？</h3><p>好的项目不是终点，而是一段可以持续生长的关系。上线只是对话的开始。</p><small class="page-tag">迭代 · ITERATE</small></div></div><div class="page-face page-face-back"><div class="page-back-num">04</div><div class="page-back-pattern"></div><div class="page-back-text">ITERATE</div></div></div>
+          <div class="book-cover book-cover-front"><span>YUAN·LAB</span><em>工作手札</em></div>
+        </div>
+        </div>
+      </div>
+      <div class="story-copy"><p class="eyebrow">FROM ISSUE TO SHIP</p><h2>让设计、代码与<br><span>反馈持续对话。</span></h2><p>从一张草图到一个线上页面，每一步都保持轻量、透明、可迭代。好的项目不是终点，而是一段可以继续生长的关系。</p><a class="text-link" href="projects.html">查看项目实践 <span>→</span></a></div><div class="story-index">02 / BUILD</div>
+    </section>
+
+    <section class="activity-section home-reveal"><div class="page-shell"><div class="section-heading"><div><p class="eyebrow">BUILD IN PUBLIC</p><h2>持续生长的记录</h2></div><span class="live-label"><i></i> ACTIVITY LIVE</span></div><div class="activity-layout"><div class="contribution-card"><div class="contribution-head"><strong>今年的贡献节奏</strong><span id="contributionCount">0 contributions</span></div><div class="contribution-grid" id="contributionGrid" aria-label="贡献热力图"></div><div class="contribution-legend"><span>Less</span><i></i><i></i><i></i><i></i><span>More</span></div></div><div class="activity-stream"><p class="stream-title">RECENT ACTIVITY</p><article><i class="stream-dot blue"></i><div><strong>完成个人网站的 Pages Functions 接口</strong><small>刚刚 · Cloudflare / D1</small></div><span>+12</span></article><article><i class="stream-dot purple"></i><div><strong>记录一次关于信息层级的设计实验</strong><small>2 小时前 · Design Notes</small></div><span>+5</span></article><article><i class="stream-dot cyan"></i><div><strong>更新作品集搜索与筛选体验</strong><small>昨天 · Vanilla JavaScript</small></div><span>+8</span></article></div></div></div></section>
+
+    <section class="feature-section page-shell home-reveal"><div class="section-heading"><div><p class="eyebrow">SELECTED WORK</p><h2>精选项目</h2></div><a class="text-link" href="projects.html">查看全部 <span>→</span></a></div><div class="project-grid project-grid-home"><article class="project-card"><div class="cover cover-a"><small>01</small><span>PORTFOLIO</span></div><div class="card-content"><h3>个人数字花园</h3><p>一个强调内容与留白的原生个人网站。</p><div class="tag-row"><span>HTML</span><span>CSS</span><span>JavaScript</span></div></div></article><article class="project-card"><div class="cover cover-b"><small>02</small><span>EDGE NOTES</span></div><div class="card-content"><h3>边缘留言板</h3><p>由 Cloudflare Pages Functions 驱动的轻量互动角落。</p><div class="tag-row"><span>Pages</span><span>D1</span><span>KV</span></div></div></article><article class="project-card"><div class="cover cover-c"><small>03</small><span>UI SYSTEM</span></div><div class="card-content"><h3>界面组件实验</h3><p>可复用的界面语言、状态与交互细节。</p><div class="tag-row"><span>Design</span><span>A11y</span><span>CSS</span></div></div></article></div></section>
+
+    <section class="community-section home-reveal"><div class="page-shell community-grid"><div><p class="eyebrow">JOIN THE CONVERSATION</p><h2>把你的想法，<br><span>留在这里。</span></h2><p>一个问题、一句问候，或一条值得分享的链接，都可能成为下一次创作的开始。</p><a class="button button-primary" href="guestbook.html">前往留言板 <b>→</b></a></div><div class="visit-card"><div class="visit-top"><span>📊 访问统计</span><small id="visitDate">—</small></div><div class="visit-main"><strong id="visitTotal">—</strong><span>累计访问</span></div><div class="visit-meta"><div><em id="visitToday">—</em><small>今日访问</small></div></div><p class="visit-tip">数据实时同步自接口</p></div></div></div></section>
+  </main>
+  <footer class="site-footer"><p>© <span class="current-year"></span> <span class="replace-me">义川先森</span></p><p>DESIGNED &amp; BUILT WITH VANILLA WEB</p></footer>
+  <div class="search-dialog" id="searchDialog" aria-hidden="true"><div class="search-panel" role="dialog" aria-modal="true" aria-label="全站搜索"><div class="search-field"><span></span><input id="globalSearchInput" type="search" placeholder="搜索项目、技术栈…" autocomplete="off"><button id="clearGlobalSearch" type="button" aria-label="清空搜索">×</button><kbd>ESC</kbd></div><p>输入后按回车，跳转到项目页查看结果。</p></div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div><script src="assets/js/main.js"></script>
+</body></html>

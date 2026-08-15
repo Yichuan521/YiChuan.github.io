@@ -1,0 +1,906 @@
+<!-- 文件：yichuan.html -->
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>管理面板 · 义川先森</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body>
+<div class="admin-page">
+  <div class="admin-bg" aria-hidden="true"></div>
+  <div class="admin-shell">
+
+    <header class="admin-header">
+      <div class="admin-brand">
+        <span class="admin-logo">🛠</span>
+        <div>
+          <h1>管理面板</h1>
+          <small>义川先森 · 控制台</small>
+        </div>
+      </div>
+      <button class="admin-logout" id="logoutBtn">退出登录</button>
+    </header>
+
+    <!-- 登录区 -->
+    <section id="loginArea" class="admin-login">
+      <div class="admin-login-card">
+        <div class="admin-login-icon">🔐</div>
+        <h2>欢迎回来</h2>
+        <p>请输入管理员密码以进入管理面板</p>
+        <form id="loginForm">
+          <div class="admin-field">
+            <input type="password" id="adminPassword" placeholder="管理员密码" required autocomplete="current-password">
+          </div>
+          <button class="admin-submit" type="submit">登 录</button>
+          <p class="admin-login-tip" id="loginTip"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- 管理面板 -->
+    <main id="adminPanel" class="admin-panel" style="display:none">
+
+      <!-- 统计条 -->
+      <div class="admin-stats">
+        <div class="admin-stat"><small>文章总数</small><strong id="statArticles">—</strong></div>
+        <div class="admin-stat"><small>资源总数</small><strong id="statResources">—</strong></div>
+        <div class="admin-stat"><small>图床素材</small><strong id="statAssets">—</strong></div>
+        <div class="admin-stat"><small>分类总数</small><strong id="statCategories">—</strong></div>
+        <div class="admin-stat"><small>友链总数</small><strong id="statFriends">—</strong></div>
+        <div class="admin-stat"><small>留言总数</small><strong id="statMessages">—</strong></div>
+      </div>
+
+      <!-- Tab 导航 -->
+      <nav class="admin-tabs">
+        <button class="admin-tab active" data-tab="articles">📝 文章</button>
+        <button class="admin-tab" data-tab="resources">📦 资源</button>
+        <button class="admin-tab" data-tab="assets">🖼 图床</button>
+        <button class="admin-tab" data-tab="categories">🏷 分类</button>
+        <button class="admin-tab" data-tab="friends">🔗 友链</button>
+        <button class="admin-tab" data-tab="messages">💬 留言</button>
+      </nav>
+
+      <!-- 文章管理 -->
+      <section class="admin-panel-section active" data-panel="articles">
+        <div class="admin-section-head"><h2>文章管理</h2><span class="admin-section-hint">Markdown · 含 B 站视频短码</span></div>
+        <form class="admin-article-form" id="articleForm">
+          <input type="hidden" name="id" value="">
+          <label class="admin-field admin-span2"><span>标题</span><input name="title" maxlength="200" required placeholder="文章标题"></label>
+          <label class="admin-field"><span>slug（留空自动生成）</span><input name="slug" placeholder="p123 或英文标识"></label>
+          <label class="admin-field"><span>分类</span><select name="category_id" id="articleCategorySelect"><option value="">未分类</option></select></label>
+          <label class="admin-field admin-span2"><span>标签（逗号分隔）</span><input name="tags" placeholder="Vue, 笔记, 前端"></label>
+          <label class="admin-field admin-span2"><span>摘要（留空自动截取）</span><input name="excerpt" placeholder="一句话摘要"></label>
+          <label class="admin-field"><span>状态</span><select name="status"><option value="draft">草稿</option><option value="published">发布</option></select></label>
+          <label class="admin-field admin-check"><input type="checkbox" name="archived" value="1"><span>归档</span></label>
+          <div class="admin-field admin-span2">
+            <span>正文（Markdown）</span>
+            <div class="admin-editor-toolbar">
+              <button type="button" data-insert="## ">H2</button>
+              <button type="button" data-insert="- ">列表</button>
+              <button type="button" data-insert="```\n```">代码</button>
+              <button type="button" data-insert='@[bilibili](BV1xx)'>B站视频</button>
+              <button type="button" data-insert='![](https://...)'>图片</button>
+            </div>
+            <textarea name="content" id="articleContent" placeholder="# 在这里用 Markdown 书写" required></textarea>
+          </div>
+          <div class="admin-field admin-span2">
+            <span>预览</span>
+            <div class="article-preview" id="articlePreview"><p class="admin-empty-inline">输入正文后自动预览</p></div>
+          </div>
+          <div class="admin-form-actions admin-span2">
+            <button type="submit" class="admin-submit" id="articleSubmit">保存文章</button>
+            <button type="button" class="admin-ghost" id="articleCancel" style="display:none">取消编辑</button>
+          </div>
+        </form>
+        <div id="articleList" class="admin-article-list"></div>
+      </section>
+
+      <!-- 资源管理 -->
+      <section class="admin-panel-section" data-panel="resources">
+        <div class="admin-section-head"><h2>资源管理</h2><span class="admin-section-hint">分享文件 · 外链或图床引用</span></div>
+        <form class="admin-resource-form" id="resourceForm">
+          <input type="hidden" name="id" value="">
+          <label class="admin-field admin-span2"><span>资源名称</span><input name="name" maxlength="120" required placeholder="资源标题"></label>
+          <label class="admin-field admin-span2"><span>简介</span><input name="description" maxlength="500" placeholder="一句话描述"></label>
+          <label class="admin-field admin-span2"><span>资源 URL（外链或图床 URL）</span><input name="url" type="url" required placeholder="https://..."></label>
+          <label class="admin-field"><span>来源</span><select name="source" id="resourceSourceSelect"><option value="external">外链</option><option value="r2">图床</option></select></label>
+          <label class="admin-field"><span>图床引用 key（可选）</span><input name="file_key" id="resourceFileKey" placeholder="上传到图床后填入或留空"></label>
+          <label class="admin-field"><span>分类</span><select name="category_id" id="resourceCategorySelect"><option value="">未分类</option></select></label>
+          <label class="admin-field"><span>文件大小（字节，可选）</span><input name="size" type="number" placeholder="自动检测"></label>
+          <label class="admin-field"><span>MIME 类型（可选）</span><input name="file_type" placeholder="如 image/png"></label>
+          <label class="admin-field admin-check"><input type="checkbox" name="archived" value="1"><span>归档</span></label>
+          <div class="admin-form-actions admin-span2">
+            <button type="submit" class="admin-submit" id="resourceSubmit">保存资源</button>
+            <button type="button" class="admin-ghost" id="resourceCancel" style="display:none">取消编辑</button>
+            <button type="button" class="admin-ghost" id="resourceFromAsset">从图床选择 →</button>
+          </div>
+        </form>
+        <div id="resourceList" class="admin-article-list"></div>
+      </section>
+
+      <!-- 图床管理 -->
+      <section class="admin-panel-section" data-panel="assets">
+        <div class="admin-section-head"><h2>图床管理</h2><span class="admin-section-hint">所有上传素材统一在此</span></div>
+        <form class="admin-asset-form" id="assetForm">
+          <label class="admin-field admin-span2">
+            <span>上传文件（图片 / 文档 / 压缩包，≤25 MB）</span>
+            <div class="admin-dropzone" id="assetDropzone" tabindex="0">
+              <input type="file" name="file" id="assetFileInput" accept="image/*,application/pdf,.zip,.rar,.7z,.txt,.md,.doc,.docx,.xls,.xlsx,.json" hidden>
+              <div class="admin-dropzone-inner">
+                <span class="admin-dropzone-icon">⬆</span>
+                <p>点击选择文件，或拖拽到此处</p>
+                <small>支持 JPG/PNG/GIF/WebP/SVG/PDF/ZIP/Office/Markdown</small>
+              </div>
+            </div>
+          </label>
+          <label class="admin-field admin-span2 admin-asset-external">
+            <span>或登记外链 URL（无文件上传时用）</span>
+            <div class="admin-asset-external-row">
+              <input name="external_url" type="url" placeholder="https://...（仅写记录到图床，不上传文件）">
+              <input name="external_filename" placeholder="文件名（可选）" style="flex:0 0 200px;">
+              <button type="button" class="admin-submit" id="assetExternalSubmit">登记外链</button>
+            </div>
+          </label>
+          <div class="admin-asset-toolbar admin-span2">
+            <input type="search" id="assetSearch" placeholder="按文件名搜索…" class="admin-asset-search-input">
+            <select id="assetFilterSelect"><option value="">全部类型</option><option value="image">仅图片</option><option value="doc">仅文档</option></select>
+            <button type="button" class="admin-ghost" id="assetCopyModeToggle">📋 复制 URL 模式</button>
+          </div>
+          <div id="assetGrid" class="admin-asset-grid"></div>
+        </form>
+      </section>
+
+      <!-- 分类管理 -->
+      <section class="admin-panel-section" data-panel="categories">
+        <div class="admin-section-head"><h2>分类管理</h2><span class="admin-section-hint">文章/资源共用</span></div>
+        <form class="admin-cat-form" id="categoryForm">
+          <input type="hidden" name="id" value="">
+          <label class="admin-field"><span>名称</span><input name="name" maxlength="60" required placeholder="分类名称"></label>
+          <label class="admin-field"><span>slug（可选）</span><input name="slug" placeholder="english-slug"></label>
+          <label class="admin-field"><span>类型</span><select name="type"><option value="post">文章</option><option value="resource">资源</option></select></label>
+          <label class="admin-field"><span>排序</span><input name="sort" type="number" value="0"></label>
+          <div class="admin-form-actions admin-span2">
+            <button type="submit" class="admin-submit" id="categorySubmit">添加分类</button>
+            <button type="button" class="admin-ghost" id="categoryCancel" style="display:none">取消编辑</button>
+          </div>
+        </form>
+        <div id="categoryList" class="admin-friend-list"></div>
+      </section>
+
+      <!-- 友链管理 -->
+      <section class="admin-panel-section" data-panel="friends">
+        <div class="admin-section-head"><h2>友链管理</h2><span class="admin-section-hint">新增 / 编辑 / 删除</span></div>
+        <form class="admin-friend-form" id="friendForm">
+          <input type="hidden" name="id" value="">
+          <label class="admin-field"><span>站点名称</span><input name="name" maxlength="60" required placeholder="站点名称"></label>
+          <label class="admin-field"><span>站点 URL</span><input name="url" type="url" required placeholder="https://..."></label>
+          <label class="admin-field"><span>简介</span><input name="desc" maxlength="160" required placeholder="简短描述"></label>
+          <label class="admin-field"><span>头像 URL</span><input name="avatar" type="url" placeholder="留空将自动获取"></label>
+          <div class="admin-form-actions admin-span2">
+            <button type="submit" class="admin-submit" id="friendSubmit">添加友链</button>
+            <button type="button" class="admin-ghost" id="friendCancel" style="display:none">取消编辑</button>
+          </div>
+        </form>
+        <div id="friendList" class="admin-friend-list"></div>
+      </section>
+
+      <!-- 留言管理 -->
+      <section class="admin-panel-section" data-panel="messages">
+        <div class="admin-section-head"><h2>留言管理</h2><span class="admin-section-hint">点击展开查看回复</span></div>
+        <div id="messageList" class="admin-message-list"></div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Markdown 渲染（用于文章预览） -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+<script>
+const api = '/api';
+
+// 安全编码：把明文密码转 UTF-8 再 base64（支持中文、特殊字符）
+function encodePwd(pwd) {
+  // 方案 1：现代浏览器 TextEncoder
+  if (typeof TextEncoder === 'function') {
+    try {
+      const bytes = new TextEncoder().encode(pwd);
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+      const result = btoa(binary);
+      if (result) return result;
+    } catch {}
+  }
+  // 方案 2：unescape 兜底（兼容老浏览器）
+  try {
+    const s = unescape(encodeURIComponent(pwd));
+    const result = btoa(s);
+    if (result) return result;
+  } catch {}
+  // 方案 3：直接 btoa（纯 ASCII 密码）
+  try { return btoa(pwd); } catch { return ''; }
+}
+// 解码与 encodePwd 对应，三种方式都能解
+function decodePwd(b64) {
+  if (!b64) return '';
+  const decoded = atob(b64);
+  // 优先 UTF-8 解码
+  if (typeof Uint8Array !== 'undefined' && typeof TextDecoder === 'function') {
+    try {
+      const bytes = new Uint8Array(decoded.length);
+      for (let i = 0; i < decoded.length; i++) bytes[i] = decoded.charCodeAt(i);
+      return new TextDecoder().decode(bytes);
+    } catch {}
+  }
+  try { return decodeURIComponent(escape(decoded)); } catch { return decoded; }
+}
+function getPwd() {
+  const raw = localStorage.getItem('admin_auth') || '';
+  if (!raw) return '';
+  try { return decodePwd(raw); } catch { return ''; }
+}
+// 鉴权：统一用 X-Admin-Password header，避免密码进 CF 访问日志
+function authHeaders(extra = {}) {
+  return { 'X-Admin-Password': getPwd(), ...extra };
+}
+function jsonHeaders() {
+  return authHeaders({ 'Content-Type': 'application/json' });
+}
+
+function checkAuth() {
+  const token = localStorage.getItem('admin_auth');
+  if (!token) {
+    document.getElementById('loginArea').style.display = 'flex';
+    document.getElementById('adminPanel').style.display = 'none';
+    return false;
+  }
+  document.getElementById('loginArea').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  loadArticles(); loadCategories(); loadFriends(); loadMessages(); loadResources(); loadAssets(); refreshStats();
+  return true;
+}
+
+/* ===== 登录 ===== */
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const tip = document.getElementById('loginTip');
+  tip.textContent = '验证中…'; tip.style.color = 'var(--text-3)';
+  // 清空之前的诊断区
+  const oldDiag = document.getElementById('loginDiag');
+  if (oldDiag) oldDiag.remove();
+  const pwdInput = document.getElementById('adminPassword');
+  const pwd = pwdInput.value;
+  if (!pwd) { tip.textContent = '请输入密码。'; tip.style.color = '#ef4444'; return; }
+  let useAuth = true;
+  try {
+    let res = await fetch(api + '/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-Password': pwd
+      },
+      body: '{}'
+    });
+    // 404 回退：老部署没有 /api/auth 路由，尝试老方案 DELETE guestbook?id=999999
+    if (res.status === 404) {
+      useAuth = false;
+      res = await fetch(api + '/guestbook?id=999999', {
+        method: 'DELETE',
+        headers: { 'X-Admin-Password': pwd }
+      });
+    }
+    let data = null;
+    try { data = await res.json(); } catch { data = null; }
+    console.log('[login] route=', useAuth ? 'POST /api/auth' : 'DELETE /guestbook fallback', 'status=', res.status, 'body=', data);
+    // 登录提示追加诊断区，方便肉眼判断
+    const diag = document.createElement('p');
+    diag.id = 'loginDiag';
+    diag.style.cssText = 'margin:10px 0 0;padding:10px 12px;border-radius:8px;background:#fef3c7;color:#92400e;font-size:12px;line-height:1.6;word-break:break-all;';
+    diag.innerHTML = '调试信息：接口 <strong>' + (useAuth ? 'POST /api/auth' : 'DELETE /guestbook 回退') + '</strong>，状态 <strong>' + res.status + '</strong>，响应：' +
+      (data ? JSON.stringify(data).slice(0, 200) : '（空）');
+    tip.parentNode.appendChild(diag);
+
+    if (res.status === 401) {
+      tip.textContent = (data && data.error) ? data.error : '密码错误，请重试。';
+      tip.style.color = '#ef4444'; return;
+    }
+    if (res.status === 500) {
+      tip.textContent = (data && data.error) || '服务端未配置密码，请在 Cloudflare Pages 后台设置 ADMIN_PASSWORD。';
+      tip.style.color = '#ef4444'; return;
+    }
+    if (!res.ok) {
+      tip.textContent = (data && data.error) || '验证失败（' + res.status + '），请重试。';
+      tip.style.color = '#ef4444'; return;
+    }
+    const encoded = encodePwd(pwd);
+    if (!encoded) { tip.textContent = '密码编码失败，请换一组字符。'; tip.style.color = '#ef4444'; return; }
+    localStorage.setItem('admin_auth', encoded);
+    tip.textContent = '登录成功，正在跳转…'; tip.style.color = '#10b981';
+    // 去掉诊断区（避免吓用户）
+    diag.remove();
+    setTimeout(() => { try { checkAuth(); } catch(err) { console.error('[login] checkAuth error', err); } }, 150);
+  } catch (err) {
+    console.error('[login] network error', err);
+    tip.textContent = '网络异常：' + (err && err.message ? err.message : '请检查网络后重试。');
+    tip.style.color = '#ef4444';
+    const diag = document.createElement('p');
+    diag.id = 'loginDiag';
+    diag.style.cssText = 'margin:10px 0 0;padding:10px 12px;border-radius:8px;background:#fee2e2;color:#991b1b;font-size:12px;line-height:1.6;word-break:break-all;';
+    diag.textContent = '调试信息：请求未到达服务器，请检查网络或 CORS 配置。错误详情：' + (err && err.message ? err.message : String(err));
+    tip.parentNode.appendChild(diag);
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  localStorage.removeItem('admin_auth'); location.reload();
+});
+
+/* ===== Tab 切换 ===== */
+document.querySelector('.admin-tabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('.admin-tab'); if (!btn) return;
+  document.querySelectorAll('.admin-tab').forEach((b) => b.classList.toggle('active', b === btn));
+  const tab = btn.dataset.tab;
+  document.querySelectorAll('.admin-panel-section').forEach((s) => s.classList.toggle('active', s.dataset.panel === tab));
+});
+
+/* ===== 统计 ===== */
+async function refreshStats() {
+  try {
+    const [arts, res, asts, cats, frs, msgs] = await Promise.all([
+      fetch(api + '/posts?status=all&archived=all').then((r) => r.json()),
+      fetch(api + '/resources?archived=all').then((r) => r.json()).catch(() => ({ resources: [] })),
+      fetch(api + '/upload').then((r) => r.json()).catch(() => ({ assets: [] })),
+      fetch(api + '/categories').then((r) => r.json()).catch(() => ({ categories: [] })),
+      fetch(api + '/friends').then((r) => r.json()),
+      fetch(api + '/guestbook').then((r) => r.json()),
+    ]);
+    document.getElementById('statArticles').textContent = (arts.posts || []).length;
+    document.getElementById('statResources').textContent = (res.resources || []).length;
+    document.getElementById('statAssets').textContent = (asts.assets || []).length;
+    document.getElementById('statCategories').textContent = (cats.categories || []).length;
+    document.getElementById('statFriends').textContent = (frs.friends || []).length;
+    document.getElementById('statMessages').textContent = (msgs.messages || []).length;
+  } catch {}
+}
+
+/* ===== 文章管理 ===== */
+let articleCategories = [];
+async function loadArticles() {
+  try {
+    const [postsRes, catsRes] = await Promise.all([
+      fetch(api + '/posts?status=all&archived=all').then((r) => r.json()),
+      fetch(api + '/categories?type=post').then((r) => r.json()),
+    ]);
+    const posts = postsRes.posts || [];
+    articleCategories = catsRes.categories || [];
+    // 填充分类下拉
+    const sel = document.getElementById('articleCategorySelect');
+    sel.innerHTML = '<option value="">未分类</option>' + articleCategories.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+    // 渲染列表
+    const list = document.getElementById('articleList');
+    if (!posts.length) { list.innerHTML = '<div class="admin-empty"><span>📭</span><p>暂无文章</p></div>'; return; }
+    list.innerHTML = posts.map((p) => `
+      <article class="admin-article-row">
+        <div class="admin-article-info">
+          <strong>${escapeHtml(p.title)} ${p.status === 'draft' ? '<span class="admin-badge admin-badge-draft">草稿</span>' : ''}${p.archived ? '<span class="admin-badge admin-badge-archived">归档</span>' : ''}</strong>
+          <small>${escapeHtml(p.category_name || '未分类')} · ${formatDate(p.time)} · ${p.views || 0} 阅读</small>
+        </div>
+        <div class="admin-friend-actions">
+          <button class="admin-edit" onclick="editArticle(${p.id})">编辑</button>
+          <button class="admin-delete" onclick="deleteArticle(${p.id})">删除</button>
+        </div>
+      </article>
+    `).join('');
+  } catch { document.getElementById('articleList').innerHTML = '<div class="admin-empty"><span>⚠️</span><p>加载失败</p></div>'; }
+}
+
+function editArticle(id) {
+  fetch(api + '/posts?id=' + id).then((r) => r.json()).then((data) => {
+    const p = data.post; if (!p) return;
+    const form = document.getElementById('articleForm');
+    form.id.value = p.id; form.title.value = p.title; form.slug.value = p.slug || '';
+    form.tags.value = p.tags || ''; form.excerpt.value = p.excerpt || '';
+    form.category_id.value = p.category_id || ''; form.status.value = p.status;
+    form.archived.checked = !!p.archived;
+    document.getElementById('articleContent').value = p.content || '';
+    document.getElementById('articleSubmit').textContent = '保存修改';
+    document.getElementById('articleCancel').style.display = '';
+    updatePreview();
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+
+function resetArticleForm() {
+  const form = document.getElementById('articleForm');
+  form.reset(); form.id.value = '';
+  document.getElementById('articleSubmit').textContent = '保存文章';
+  document.getElementById('articleCancel').style.display = 'none';
+  updatePreview();
+}
+
+document.getElementById('articleCancel').addEventListener('click', resetArticleForm);
+
+// 编辑器工具栏：在光标处插入片段
+document.querySelector('.admin-editor-toolbar').addEventListener('click', (e) => {
+  const btn = e.target.closest('button'); if (!btn) return;
+  const ta = document.getElementById('articleContent');
+  const text = btn.dataset.insert || '';
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  ta.value = ta.value.slice(0, start) + text + ta.value.slice(end);
+  ta.focus(); ta.selectionStart = ta.selectionEnd = start + text.length;
+  updatePreview();
+});
+
+// 实时预览
+function updatePreview() {
+  const md = document.getElementById('articleContent').value;
+  const box = document.getElementById('articlePreview');
+  if (!md.trim()) { box.innerHTML = '<p class="admin-empty-inline">输入正文后自动预览</p>'; return; }
+  let html = window.marked ? window.marked.parse(md) : '<pre>' + escapeHtml(md) + '</pre>';
+  if (window.DOMPurify) html = window.DOMPurify.sanitize(html);
+  box.innerHTML = html;
+  // B 站占位替换
+  box.querySelectorAll('.bili-embed').forEach((el) => {
+    const bvid = el.getAttribute('data-bvid') || '';
+    if (!/^BV[\w]+$/i.test(bvid)) { el.remove(); return; }
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://player.bilibili.com/player.html?bvid=${bvid}&autoplay=0`;
+    iframe.className = 'bili-iframe'; iframe.loading = 'lazy';
+    el.replaceWith(iframe);
+  });
+}
+document.getElementById('articleContent').addEventListener('input', () => clearTimeout(window.__pv) || (window.__pv = setTimeout(updatePreview, 400)));
+
+document.getElementById('articleForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const body = Object.fromEntries(new FormData(form));
+  if (form.archived.checked) body.archived = 1; else delete body.archived;
+  body.content = document.getElementById('articleContent').value;
+  const isEdit = body.id && Number(body.id) > 0;
+  try {
+    const res = await fetch(api + '/posts', { method: isEdit ? 'PUT' : 'POST', headers: jsonHeaders(), body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || '操作失败');
+    resetArticleForm(); loadArticles(); refreshStats();
+  } catch (err) { alert(err.message || '操作失败。'); }
+});
+
+async function deleteArticle(id) {
+  if (!confirm('确定删除此文章？')) return;
+  try {
+    await fetch(api + '/posts?id=' + id, { method: 'DELETE', headers: authHeaders() });
+    loadArticles(); refreshStats();
+  } catch { alert('删除失败。'); }
+}
+
+/* ===== 资源管理 ===== */
+let resourceCategories = [];
+async function loadResources() {
+  try {
+    const [resRes, catsRes] = await Promise.all([
+      fetch(api + '/resources?archived=all').then((r) => r.json()),
+      fetch(api + '/categories?type=resource').then((r) => r.json()),
+    ]);
+    const resources = resRes.resources || [];
+    resourceCategories = catsRes.categories || [];
+    const sel = document.getElementById('resourceCategorySelect');
+    sel.innerHTML = '<option value="">未分类</option>' + resourceCategories.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+    const list = document.getElementById('resourceList');
+    if (!resources.length) { list.innerHTML = '<div class="admin-empty"><span>📭</span><p>暂无资源</p></div>'; return; }
+    list.innerHTML = resources.map((r) => `
+      <article class="admin-article-row">
+        <div class="admin-article-info">
+          <strong>${escapeHtml(r.name)} ${r.archived ? '<span class="admin-badge admin-badge-archived">归档</span>' : ''}<span class="admin-badge ${r.source === 'r2' ? 'admin-badge-resource' : 'admin-badge-post'}">${r.source === 'r2' ? '图床' : '外链'}</span></strong>
+          <small>${escapeHtml(r.category_name || '未分类')} · ${formatDate(r.time)} · ${r.downloads || 0} 次下载${r.size ? ' · ' + formatBytes(r.size) : ''}</small>
+        </div>
+        <div class="admin-friend-actions">
+          <a class="admin-edit" href="${escapeHtml(r.url)}" target="_blank" rel="noopener" style="text-decoration:none">查看</a>
+          <button class="admin-edit" onclick="editResource(${r.id})">编辑</button>
+          <button class="admin-delete" onclick="deleteResource(${r.id})">删除</button>
+        </div>
+      </article>
+    `).join('');
+  } catch { document.getElementById('resourceList').innerHTML = '<div class="admin-empty"><span>⚠️</span><p>加载失败</p></div>'; }
+}
+
+function editResource(id) {
+  fetch(api + '/resources?id=' + id).then((r) => r.json()).then((data) => {
+    const r = data.resource; if (!r) return;
+    const form = document.getElementById('resourceForm');
+    form.id.value = r.id; form.name.value = r.name; form.description.value = r.description || '';
+    form.url.value = r.url; form.source.value = r.source; form.file_key.value = r.file_key || '';
+    form.size.value = r.size || ''; form.file_type.value = r.file_type || '';
+    form.category_id.value = r.category_id || ''; form.archived.checked = !!r.archived;
+    document.getElementById('resourceSubmit').textContent = '保存修改';
+    document.getElementById('resourceCancel').style.display = '';
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+function resetResourceForm() {
+  const form = document.getElementById('resourceForm');
+  form.reset(); form.id.value = '';
+  document.getElementById('resourceSubmit').textContent = '保存资源';
+  document.getElementById('resourceCancel').style.display = 'none';
+}
+document.getElementById('resourceCancel').addEventListener('click', resetResourceForm);
+
+// 从图床选择：弹一个简易选择器，选完自动填到资源表单
+let assetPickerCallback = null;
+document.getElementById('resourceFromAsset').addEventListener('click', () => {
+  assetPickerCallback = (asset) => {
+    const form = document.getElementById('resourceForm');
+    form.url.value = asset.url;
+    form.file_key.value = asset.key;
+    form.size.value = asset.size || '';
+    form.file_type.value = asset.mime || '';
+    form.source.value = 'r2';
+    if (!form.name.value) form.name.value = asset.filename || '';
+  };
+  // 切换到图床 Tab 并提示
+  document.querySelector('.admin-tab[data-tab="assets"]').click();
+  setTimeout(() => {
+    const tip = document.getElementById('assetPickerTip');
+    if (tip) { tip.style.display = ''; tip.textContent = '👆 请从下方点击一个素材填入资源表单'; }
+  }, 200);
+});
+
+document.getElementById('resourceForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const body = Object.fromEntries(new FormData(form));
+  if (form.archived.checked) body.archived = 1; else delete body.archived;
+  const isEdit = body.id && Number(body.id) > 0;
+  try {
+    const res = await fetch(api + '/resources', { method: isEdit ? 'PUT' : 'POST', headers: jsonHeaders(), body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || '操作失败');
+    resetResourceForm(); loadResources(); refreshStats();
+  } catch (err) { alert(err.message || '操作失败。'); }
+});
+async function deleteResource(id) {
+  if (!confirm('确定删除此资源？' + (id ? '若是图床文件,会同时从 R2 删除。' : '')) return;
+  try {
+    await fetch(api + '/resources?id=' + id, { method: 'DELETE', headers: authHeaders() });
+    loadResources(); refreshStats();
+  } catch { alert('删除失败。'); }
+}
+
+/* ===== 图床管理 ===== */
+let assetFilter = '', assetQuery = '', assetCopyMode = false;
+async function loadAssets() {
+  try {
+    const params = new URLSearchParams();
+    if (assetFilter) params.set('mime', assetFilter);
+    if (assetQuery) params.set('q', assetQuery);
+    const data = await fetch(api + '/upload?' + params.toString()).then((r) => r.json());
+    const grid = document.getElementById('assetGrid');
+    const assets = data.assets || [];
+    if (!assets.length) {
+      grid.innerHTML = '<div class="admin-empty" style="grid-column:1/-1"><span>📭</span><p>暂无素材,上传一个试试</p></div>';
+      return;
+    }
+    grid.innerHTML = assets.map((a) => {
+      const isImg = (a.mime || '').startsWith('image/');
+      const thumb = isImg && a.url ? `<img src="${escapeHtml(a.url)}" alt="" loading="lazy">` : `<span class="admin-asset-thumb-icon">${fileIcon(a.mime)}</span>`;
+      const sizeStr = a.size ? formatBytes(a.size) : '—';
+      const uploadDate = formatDate(a.uploaded_at);
+      return `<article class="admin-asset-card ${assetCopyMode ? 'copy-mode' : ''}" data-id="${a.id}" data-url="${escapeHtml(a.url)}" data-key="${escapeHtml(a.key)}">
+        <div class="admin-asset-thumb">${thumb}</div>
+        <div class="admin-asset-meta">
+          <strong title="${escapeHtml(a.filename)}">${escapeHtml(a.filename)}</strong>
+          <small>${escapeHtml(a.mime || '未知')} · ${sizeStr}</small>
+          <time>${uploadDate}</time>
+        </div>
+        <div class="admin-asset-actions">
+          ${assetCopyMode
+            ? `<button class="admin-edit" onclick="copyAssetUrl(${a.id}, '${escapeHtml(a.url)}')">复制 URL</button>`
+            : `<a class="admin-edit" href="${escapeHtml(a.url)}" target="_blank" rel="noopener" style="text-decoration:none">查看</a>
+               <button class="admin-edit" onclick="pickAsset(${a.id})">填入资源</button>`
+          }
+          <button class="admin-delete" onclick="deleteAsset(${a.id})">删除</button>
+        </div>
+      </article>`;
+    }).join('');
+  } catch { document.getElementById('assetGrid').innerHTML = '<div class="admin-empty" style="grid-column:1/-1"><span>⚠️</span><p>加载失败</p></div>'; }
+}
+
+function fileIcon(type) {
+  const t = (type || '').toLowerCase();
+  if (t.startsWith('image/')) return '🖼';
+  if (t.includes('pdf')) return '📕';
+  if (t.includes('zip') || t.includes('rar') || t.includes('7z')) return '🗜';
+  if (t.includes('word') || t.includes('msword')) return '📘';
+  if (t.includes('excel') || t.includes('sheet')) return '📗';
+  if (t.includes('markdown') || t === 'text/plain' || t === 'application/json') return '📝';
+  return '📦';
+}
+function formatBytes(n) {
+  n = Number(n) || 0;
+  if (n < 1024) return n + ' B';
+  if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+  if (n < 1024 * 1024 * 1024) return (n / 1024 / 1024).toFixed(1) + ' MB';
+  return (n / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+}
+
+// 拖拽 + 点击上传
+const dropzone = document.getElementById('assetDropzone');
+const fileInput = document.getElementById('assetFileInput');
+dropzone?.addEventListener('click', () => fileInput.click());
+dropzone?.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+['dragenter', 'dragover'].forEach((ev) => dropzone?.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.add('drag'); }));
+['dragleave', 'drop'].forEach((ev) => dropzone?.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.remove('drag'); }));
+dropzone?.addEventListener('drop', async (e) => {
+  const files = e.dataTransfer?.files;
+  if (files && files.length) await uploadAsset(files[0]);
+});
+fileInput?.addEventListener('change', async (e) => {
+  if (e.target.files && e.target.files.length) await uploadAsset(e.target.files[0]);
+  fileInput.value = ''; // 清空,允许重复上传同文件
+});
+
+async function uploadAsset(file) {
+  if (file.size > 25 * 1024 * 1024) { alert('文件过大,上限 25 MB。'); return; }
+  const fd = new FormData();
+  fd.append('file', file);
+  dropzone.classList.add('uploading');
+  const inner = dropzone.querySelector('.admin-dropzone-inner');
+  const original = inner.innerHTML;
+  inner.innerHTML = '<span class="admin-dropzone-icon" style="animation:spin 1s linear infinite">⏳</span><p>正在上传 ' + escapeHtml(file.name) + '…</p>';
+  try {
+    const res = await fetch(api + '/upload', { method: 'POST', headers: authHeaders(), body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || '上传失败');
+    loadAssets(); refreshStats();
+    // 上传完若资源表单打开 + 来源是图床 + URL 为空,自动填
+    const rForm = document.getElementById('resourceForm');
+    if (rForm.source.value === 'r2' && !rForm.url.value) {
+      rForm.url.value = data.asset.url || '';
+      rForm.file_key.value = data.asset.key || '';
+      rForm.size.value = data.asset.size || '';
+      rForm.file_type.value = data.asset.mime || '';
+      if (!rForm.name.value) rForm.name.value = data.asset.filename || '';
+    }
+  } catch (err) {
+    alert(err.message || '上传失败。');
+  } finally {
+    inner.innerHTML = original;
+    dropzone.classList.remove('uploading');
+  }
+}
+
+// 登记外链
+document.getElementById('assetExternalSubmit').addEventListener('click', async () => {
+  const url = document.querySelector('input[name="external_url"]').value.trim();
+  const filename = document.querySelector('input[name="external_filename"]').value.trim();
+  if (!url) { alert('请填写外链 URL。'); return; }
+  try {
+    const res = await fetch(api + '/upload', {
+      method: 'PUT', headers: jsonHeaders(),
+      body: JSON.stringify({ url, filename: filename || url.split('/').pop() }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || '登记失败');
+    document.querySelector('input[name="external_url"]').value = '';
+    document.querySelector('input[name="external_filename"]').value = '';
+    loadAssets(); refreshStats();
+  } catch (err) { alert(err.message || '操作失败。'); }
+});
+
+// 搜索 / 类型筛选
+document.getElementById('assetSearch').addEventListener('input', debounce2(() => {
+  assetQuery = document.getElementById('assetSearch').value.trim();
+  loadAssets();
+}, 300));
+document.getElementById('assetFilterSelect').addEventListener('change', (e) => {
+  assetFilter = e.target.value; loadAssets();
+});
+// 复制 URL 模式切换
+document.getElementById('assetCopyModeToggle').addEventListener('click', () => {
+  assetCopyMode = !assetCopyMode;
+  document.getElementById('assetCopyModeToggle').classList.toggle('active', assetCopyMode);
+  document.getElementById('assetCopyModeToggle').textContent = assetCopyMode ? '✅ 复制 URL 模式（点击素材复制）' : '📋 复制 URL 模式';
+  loadAssets();
+});
+
+function pickAsset(id) {
+  fetch(api + '/upload?id=' + id).then((r) => r.json()).then((data) => {
+    const a = data.asset; if (!a) return;
+    if (assetPickerCallback) { assetPickerCallback(a); assetPickerCallback = null; }
+    // 切回资源 Tab
+    document.querySelector('.admin-tab[data-tab="resources"]').click();
+  });
+}
+async function copyAssetUrl(id, url) {
+  if (!url) { alert('该素材未配置公开 URL（R2 未配 R2_PUBLIC_BASE）。'); return; }
+  try { await navigator.clipboard.writeText(url); toast('已复制：' + url); }
+  catch { alert('URL: ' + url); }
+}
+async function deleteAsset(id) {
+  if (!confirm('删除此素材?若是 R2 上传文件,会同时删除对象。')) return;
+  try {
+    await fetch(api + '/upload?id=' + id, { method: 'DELETE', headers: authHeaders() });
+    loadAssets(); refreshStats();
+  } catch { alert('删除失败。'); }
+}
+function debounce2(fn, delay) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), delay); }; }
+function toast(msg) {
+  let el = document.getElementById('adminToast');
+  if (!el) { el = document.createElement('div'); el.id = 'adminToast'; el.className = 'toast'; document.body.appendChild(el); }
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+/* ===== 分类管理 ===== */
+async function loadCategories() {
+  try {
+    const data = await fetch(api + '/categories').then((r) => r.json());
+    const list = document.getElementById('categoryList');
+    const cats = data.categories || [];
+    if (!cats.length) { list.innerHTML = '<div class="admin-empty"><span>📭</span><p>暂无分类</p></div>'; return; }
+    list.innerHTML = cats.map((c) => `
+      <article class="admin-friend-card">
+        <div class="admin-friend-body">
+          <div class="admin-friend-top"><strong>${escapeHtml(c.name)}</strong><span class="admin-badge admin-badge-${c.type}">${c.type === 'resource' ? '资源' : '文章'}</span></div>
+          <p>slug: ${escapeHtml(c.slug || '—')} · 排序 ${c.sort || 0}</p>
+        </div>
+        <div class="admin-friend-actions">
+          <button class="admin-edit" onclick="editCategory(${c.id})">编辑</button>
+          <button class="admin-delete" onclick="deleteCategory(${c.id})">删除</button>
+        </div>
+      </article>
+    `).join('');
+  } catch { document.getElementById('categoryList').innerHTML = '<div class="admin-empty"><span>⚠️</span><p>加载失败</p></div>'; }
+}
+
+function editCategory(id) {
+  fetch(api + '/categories').then((r) => r.json()).then((data) => {
+    const c = (data.categories || []).find((x) => x.id === id); if (!c) return;
+    const form = document.getElementById('categoryForm');
+    form.id.value = c.id; form.name.value = c.name; form.slug.value = c.slug || '';
+    form.type.value = c.type; form.sort.value = c.sort || 0;
+    document.getElementById('categorySubmit').textContent = '保存修改';
+    document.getElementById('categoryCancel').style.display = '';
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+document.getElementById('categoryCancel').addEventListener('click', () => {
+  const form = document.getElementById('categoryForm');
+  form.reset(); form.id.value = '';
+  document.getElementById('categorySubmit').textContent = '添加分类';
+  document.getElementById('categoryCancel').style.display = 'none';
+});
+document.getElementById('categoryForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const body = Object.fromEntries(new FormData(form));
+  const isEdit = body.id && Number(body.id) > 0;
+  try {
+    const res = await fetch(api + '/categories', { method: isEdit ? 'PUT' : 'POST', headers: jsonHeaders(), body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || '操作失败');
+    form.reset(); form.id.value = '';
+    document.getElementById('categorySubmit').textContent = '添加分类';
+    document.getElementById('categoryCancel').style.display = 'none';
+    loadCategories(); loadArticles(); refreshStats();
+  } catch (err) { alert(err.message || '操作失败。'); }
+});
+async function deleteCategory(id) {
+  if (!confirm('删除分类后，相关文章/资源的分类将被置空。继续？')) return;
+  try {
+    await fetch(api + '/categories?id=' + id, { method: 'DELETE', headers: authHeaders() });
+    loadCategories(); loadArticles(); refreshStats();
+  } catch { alert('删除失败。'); }
+}
+
+/* ===== 友链管理 ===== */
+async function loadFriends() {
+  try {
+    const data = await fetch(api + '/friends').then((r) => r.json());
+    const list = document.getElementById('friendList');
+    const friends = data.friends || [];
+    if (!friends.length) { list.innerHTML = '<div class="admin-empty"><span>📭</span><p>暂无友链</p></div>'; return; }
+    list.innerHTML = friends.map((f) => `
+      <article class="admin-friend-card" data-id="${f.id}">
+        <img class="admin-friend-avatar" src="${f.avatar}" alt="" onerror="this.src='https://www.google.com/s2/favicons?domain=${encodeURIComponent(f.url)}&sz=64'">
+        <div class="admin-friend-body">
+          <div class="admin-friend-top"><strong>${escapeHtml(f.name)}</strong><a href="${escapeHtml(f.url)}" target="_blank" rel="noopener" class="admin-friend-url">${escapeHtml(f.url)}</a></div>
+          <p>${escapeHtml(f.desc)}</p>
+        </div>
+        <div class="admin-friend-actions">
+          <button class="admin-edit" onclick="editFriend(${f.id})">编辑</button>
+          <button class="admin-delete" onclick="deleteFriend(${f.id})">删除</button>
+        </div>
+      </article>
+    `).join('');
+  } catch { document.getElementById('friendList').innerHTML = '<div class="admin-empty"><span>⚠️</span><p>加载失败</p></div>'; }
+}
+function editFriend(id) {
+  fetch(api + '/friends').then((r) => r.json()).then((data) => {
+    const f = (data.friends || []).find((x) => x.id === id); if (!f) return;
+    const form = document.getElementById('friendForm');
+    form.id.value = f.id; form.name.value = f.name; form.url.value = f.url;
+    form.desc.value = f.desc; form.avatar.value = f.avatar || '';
+    document.getElementById('friendSubmit').textContent = '保存修改';
+    document.getElementById('friendCancel').style.display = '';
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+document.getElementById('friendCancel').addEventListener('click', () => {
+  const form = document.getElementById('friendForm');
+  form.reset(); form.id.value = '';
+  document.getElementById('friendSubmit').textContent = '添加友链';
+  document.getElementById('friendCancel').style.display = 'none';
+});
+document.getElementById('friendForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const body = Object.fromEntries(new FormData(form));
+  const isEdit = body.id && Number(body.id) > 0;
+  try {
+    const res = await fetch(api + '/friends', { method: isEdit ? 'PUT' : 'POST', headers: jsonHeaders(), body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || '操作失败');
+    form.reset(); form.id.value = '';
+    document.getElementById('friendSubmit').textContent = '添加友链';
+    document.getElementById('friendCancel').style.display = 'none';
+    loadFriends(); refreshStats();
+  } catch (err) { alert(err.message || '操作失败。'); }
+});
+async function deleteFriend(id) {
+  if (!confirm('确定删除此友链？')) return;
+  try {
+    await fetch(api + '/friends?id=' + id, { method: 'DELETE', headers: authHeaders() });
+    loadFriends(); refreshStats();
+  } catch { alert('删除失败。'); }
+}
+
+/* ===== 留言管理 ===== */
+async function loadMessages() {
+  try {
+    const data = await fetch(api + '/guestbook').then((r) => r.json());
+    const list = document.getElementById('messageList');
+    const msgs = data.messages || [];
+    if (!msgs.length) { list.innerHTML = '<div class="admin-empty"><span>📭</span><p>暂无留言</p></div>'; return; }
+    list.innerHTML = msgs.map((m) => {
+      const replies = m.replies || [];
+      const replyHtml = replies.length ? `
+        <button class="admin-reply-toggle" onclick="toggleReplies(${m.id})"><span class="admin-reply-arrow">▸</span>展开 ${replies.length} 条回复</button>
+        <div class="admin-reply-thread" id="replies-${m.id}" style="display:none">
+          ${replies.map((r) => `<div class="admin-reply-item"><div class="admin-reply-meta"><strong>${escapeHtml(r.nickname)}</strong>${r.email ? `<em>${escapeHtml(r.email)}</em>` : ''}<time>${formatTime(r.time)}</time></div><p>${escapeHtml(r.content)}</p><button class="admin-delete admin-reply-delete" onclick="deleteMessage(${r.id}, '此回复')">删除</button></div>`).join('')}
+        </div>` : '';
+      return `<article class="admin-message-card">
+        <div class="admin-message-head"><strong>${escapeHtml(m.nickname)}</strong>${m.email ? `<em>${escapeHtml(m.email)}</em>` : ''}<time>${formatTime(m.time)}</time><span class="admin-message-id">#${m.id}</span></div>
+        <p class="admin-message-content">${escapeHtml(m.content)}</p>
+        <div class="admin-message-foot"><button class="admin-delete" onclick="deleteMessage(${m.id}, '此留言及其所有回复')">删除留言</button></div>
+        ${replyHtml}
+      </article>`;
+    }).join('');
+  } catch { document.getElementById('messageList').innerHTML = '<div class="admin-empty"><span>⚠️</span><p>加载失败</p></div>'; }
+}
+function toggleReplies(id) {
+  const el = document.getElementById('replies-' + id);
+  const btn = el.previousElementSibling;
+  if (el.style.display === 'none') { el.style.display = 'block'; btn.innerHTML = '<span class="admin-reply-arrow expanded">▸</span>收起回复'; }
+  else { el.style.display = 'none'; btn.innerHTML = '<span class="admin-reply-arrow">▸</span>展开 ' + el.children.length + ' 条回复'; }
+}
+async function deleteMessage(id, label) {
+  if (!confirm('确定删除' + label + '？')) return;
+  try {
+    await fetch(api + '/guestbook?id=' + id, { method: 'DELETE', headers: authHeaders() });
+    loadMessages(); refreshStats();
+  } catch { alert('删除失败。'); }
+}
+
+/* ===== 工具 ===== */
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+function formatDate(t) {
+  const d = new Date(Number(t) * 1000), p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+}
+function formatTime(t) {
+  const d = new Date(Number(t) * 1000), p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+checkAuth();
+</script>
+</body></html>

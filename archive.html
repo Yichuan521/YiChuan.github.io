@@ -1,0 +1,37 @@
+<!-- 文件：archive.html — 归档页：统一展示归档文章 + 归档资源 -->
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>归档 · 义川先森</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body data-page="archive"><header class="site-header"><div class="nav-shell"><a class="brand" href="index.html">YUAN<span>·</span>LAB</a><button class="menu-button" type="button" aria-label="打开导航" aria-expanded="false"><i></i><i></i></button><nav class="site-nav" aria-label="主导航"><a href="index.html">首页</a><a href="about.html">关于</a><a href="projects.html">项目</a><a href="articles.html">文章</a><a href="resources.html">资源</a><a href="archive.html" class="active">归档</a><a href="guestbook.html">留言</a><a href="friends.html">友链</a></nav><div class="nav-actions"><button class="search-button" type="button" aria-label="搜索"></button><button class="theme-button" type="button" aria-label="切换主题"><span></span></button></div></div></header>
+<main class="page-shell page-main reveal"><p class="eyebrow">ARCHIVE / 04</p><h1 class="page-title">归档<span>。</span></h1><p class="page-lead">这里收藏着已下线但依然值得回顾的文章与资源，随时查阅、随时复活。</p>
+
+<div class="archive-tabs" role="tablist">
+  <button class="active" id="tab-posts" type="button" role="tab" aria-selected="true" aria-controls="section-posts">
+    <span class="tab-icon" aria-hidden="true"></span>
+    <span class="tab-label">归档文章</span>
+    <span class="tab-count" id="tabCountPosts">0</span>
+  </button>
+  <button id="tab-resources" type="button" role="tab" aria-selected="false" aria-controls="section-resources">
+    <span class="tab-icon" aria-hidden="true"></span>
+    <span class="tab-label">归档资源</span>
+    <span class="tab-count" id="tabCountResources">0</span>
+  </button>
+</div>
+
+<section class="archive-section" id="section-posts" role="tabpanel" aria-labelledby="tab-posts">
+  <div class="project-tools"><label class="inline-search"><span></span><input id="archivePostSearch" type="search" placeholder="搜索归档文章标题、摘要…" autocomplete="off"><button id="clearArchivePostSearch" type="button" aria-label="清空">×</button></label><div class="filters" id="archivePostFilters"><button class="active" data-filter="all">全部</button></div></div>
+  <p class="search-summary" id="archivePostSummary" aria-live="polite"></p>
+  <section class="article-grid" id="archivePostList"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></section>
+  <div class="empty-state" id="archivePostEmpty" hidden><strong>📦</strong><h2>暂无归档文章</h2><p>所有文章当前都在常规列表中。</p></div>
+</section>
+
+<section class="archive-section" id="section-resources" role="tabpanel" aria-labelledby="tab-resources" hidden>
+  <div class="project-tools"><label class="inline-search"><span></span><input id="archiveResSearch" type="search" placeholder="搜索归档资源名称或描述…" autocomplete="off"><button id="clearArchiveResSearch" type="button" aria-label="清空">×</button></label><div class="filters" id="archiveResFilters"><button class="active" data-filter="all">全部</button></div></div>
+  <p class="search-summary" id="archiveResSummary" aria-live="polite"></p>
+  <section class="resource-grid" id="archiveResList"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></section>
+  <div class="empty-state" id="archiveResEmpty" hidden><strong>📦</strong><h2>暂无归档资源</h2><p>所有资源当前都在常规列表中。</p></div>
+</section>
+</main>
+<footer class="site-footer"><p>© <span class="current-year"></span> 义川先森</p><p>DESIGNED &amp; BUILT WITH VANILLA WEB</p></footer>
+<div class="search-dialog" id="searchDialog" aria-hidden="true"><div class="search-panel" role="dialog" aria-modal="true"><div class="search-field"><span></span><input id="globalSearchInput" type="search" placeholder="搜索项目、技术栈…"><button id="clearGlobalSearch" type="button">×</button><kbd>ESC</kbd></div><p>输入后按回车，跳转到项目页查看结果。</p></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="assets/js/main.js"></script>
+</body></html>

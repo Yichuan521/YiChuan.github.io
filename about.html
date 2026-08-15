@@ -1,0 +1,243 @@
+<!-- 文件：about.html -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 · 义川先森</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="about">
+    <!-- 网站头部导航 -->
+    <header class="site-header">
+        <div class="nav-shell">
+            <a class="brand" href="index.html">YUAN<span>·</span>LAB</a>
+            <button class="menu-button" type="button" aria-label="打开导航" aria-expanded="false">
+                <i></i>
+                <i></i>
+            </button>
+            <nav class="site-nav" aria-label="主导航">
+                <a href="index.html">首页</a>
+                <a href="about.html">关于</a>
+                <a href="projects.html">项目</a>
+                <a href="articles.html">文章</a><a href="resources.html">资源</a>
+                <a href="archive.html">归档</a>
+                <a href="guestbook.html">留言</a>
+                <a href="friends.html">友链</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="search-button" type="button" aria-label="搜索"></button>
+                <button class="theme-button" type="button" aria-label="切换主题">
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 页面主体内容 -->
+    <main class="page-shell page-main reveal">
+        <!-- 头部个人介绍区域 -->
+        <section class="about-hero">
+            <div class="about-portrait" aria-hidden="true">
+                <div class="about-avatar"><img src="https://q.qlogo.cn/g?b=qq&nk=3459994583&s=160" alt="义川先森的QQ头像" loading="eager"></div>
+                <span class="about-ring"></span>
+                <span class="about-orb"></span>
+            </div>
+            <div class="about-intro">
+                <p class="eyebrow">ABOUT / 01</p>
+                <h1 class="page-title">关于我<span>。</span></h1>
+                <div class="title-rule"></div>
+                <section class="intro-copy">
+                    <p>你好，我是<strong>义川先森</strong>。一名专注于 Web 体验的开发者与创作者，喜欢在设计的秩序与工程的可靠之间找到平衡。</p>
+                    <p>大二在读，性格踏实上进，热衷前端开发，注重实践积累。日常积极参与校园事务与志愿活动，乐于学习新知，不断打磨自身综合能力。</p>
+                </section>
+            </div>
+        </section>
+
+        <!-- 技能标签板块 -->
+        <section class="content-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">SKILL CLOUD</p>
+                    <h2>技能标签</h2>
+                </div>
+            </div>
+            <div class="skill-groups">
+                <article>
+                    <h3>前端</h3>
+                    <div class="tag-row">
+                        <span>HTML5</span>
+                        <span>CSS3</span>
+                        <span>JavaScript</span>
+                        <span>Web API</span>
+                        <span>响应式</span>
+                    </div>
+                </article>
+                <article>
+                    <h3>后端与边缘</h3>
+                    <div class="tag-row">
+                        <span>Pages Functions</span>
+                        <span>Workers</span>
+                        <span>D1</span>
+                        <span>KV</span>
+                        <span>REST API</span>
+                    </div>
+                </article>
+                <article>
+                    <h3>工程与运维</h3>
+                    <div class="tag-row">
+                        <span>Git</span>
+                        <span>GitHub</span>
+                        <span>CI/CD</span>
+                        <span>Linux</span>
+                        <span>性能优化</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 时间线板块 -->
+        <section class="content-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">TIMELINE</p>
+                    <h2>时间线</h2>
+                </div>
+            </div>
+            <ol class="timeline">
+                <li>
+                    <time>2026</time>
+                    <article>
+                        <h3>持续构建个人数字花园</h3>
+                        <p>将内容、作品和人与人之间的连接放进同一个长期生长的空间。</p>
+                    </article>
+                </li>
+                <li>
+                    <time>2025</time>
+                    <article>
+                        <h3>专注原生 Web 与边缘计算</h3>
+                        <p>用更轻量、可靠的技术完成真实可用的小产品。</p>
+                    </article>
+                </li>
+                <li>
+                    <time>NOW</time>
+                    <article>
+                        <h3>开放合作与交流</h3>
+                        <p>欢迎从一个有趣的想法、一个问题或一句简单的你好开始。</p>
+                    </article>
+                </li>
+            </ol>
+        </section>
+
+        <!-- 联系方式板块 -->
+        <section class="content-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">GET IN TOUCH</p>
+                    <h2>联系方式</h2>
+                </div>
+                <span class="contact-hint">点击卡片复制 / 跳转</span>
+            </div>
+            <div class="contact-grid" id="contactGrid">
+                <!-- GitHub 卡片 -->
+                <a class="contact-card" data-copy="Yichuan521" href="https://github.com/Yichuan521/" target="_blank" rel="noreferrer" style="--c:#181717">
+                    <span class="contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.75.41-1.27.74-1.56-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.42.36.8 1.08.8 2.18v3.23c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z" />
+                        </svg>
+                    </span>
+                    <span class="contact-meta">
+                        <strong>GitHub</strong>
+                        <small>@Yichuan521</small>
+                    </span>
+                </a>
+                <!-- 微信卡片 -->
+                <button class="contact-card" data-copy="YiChuan-2022" type="button" style="--c:#07c160">
+                    <span class="contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8.69 2C4.43 2 1 4.83 1 8.32c0 2.02 1.16 3.82 2.97 5.02l-.74 2.23 2.6-1.31c.93.26 1.91.4 2.86.4.27 0 .53-.02.79-.04-.17-.55-.27-1.13-.27-1.73 0-3.2 3.13-5.79 6.99-5.79.26 0 .51.01.76.04C15.86 4.07 12.6 2 8.69 2zm-2.6 3.3a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8zm5.2 0a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z" />
+                            <path d="M23 12.68c0-2.86-2.86-5.18-6.39-5.18s-6.39 2.32-6.39 5.18 2.86 5.18 6.39 5.18c.74 0 1.45-.1 2.12-.29l2.1 1.06-.57-1.73c1.65-1.04 2.74-2.58 2.74-4.22zm-8.49-1.5a.73.73 0 1 1 0-1.46.73.73 0 0 1 0 1.46zm4.2 0a.73.73 0 1 1 0-1.46.73.73 0 0 1 0 1.46z" />
+                        </svg>
+                    </span>
+                    <span class="contact-meta">
+                        <strong>微信</strong>
+                        <small>YiChuan-2022</small>
+                    </span>
+                </button>
+                <!-- QQ卡片 -->
+                <a class="contact-card" data-copy="3459994583" href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=3459994583&website=www.oicqzone.com" style="--c:#12b7f5">
+                    <span class="contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2c-3.87 0-7 3.13-7 7 0 1.6.54 3.07 1.43 4.25-.3.6-.97 1.5-1.93 2.1-.65.4-.34 1.4.4 1.4.32 0 .65-.1.97-.27-.13.4-.2.83-.2 1.27 0 .69.4.95.85.95.5 0 .9-.27.9-.95 0-.5.13-.95.34-1.32.4.13.83.2 1.27.2h5.94c.44 0 .87-.07 1.27-.2.21.37.34.82.34 1.32 0 .68.4.95.9.95.45 0 .85-.26.85-.95 0-.44-.07-.87-.2-1.27.32.17.65.27.97.27.74 0 1.05-1 .4-1.4-.96-.6-1.63-1.5-1.93-2.1C18.46 12.07 19 10.6 19 9c0-3.87-3.13-7-7-7zm-2.5 5.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zm5 0a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z" />
+                        </svg>
+                    </span>
+                    <span class="contact-meta">
+                        <strong>QQ</strong>
+                        <small>3459994583</small>
+                    </span>
+                </a>
+                <!-- 邮箱卡片 -->
+                <a class="contact-card" data-copy="yichuanit@gmail.com" href="mailto:yichuanit@gmail.com" style="--c:#ea4335">
+                    <span class="contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13zm2.2.5 7.8 5.5L19.8 6H4.2zM20 7.6l-7.4 5.2a1 1 0 0 1-1.2 0L4 7.6V18h16V7.6z" />
+                        </svg>
+                    </span>
+                    <span class="contact-meta">
+                        <strong>邮箱</strong>
+                        <small>yichuanit@gmail.com</small>
+                    </span>
+                </a>
+                <!-- X(Twitter)卡片 -->
+                <a class="contact-card" data-copy="@yichuanit" href="https://x.com/yichuanit" target="_blank" rel="noreferrer" style="--c:#000">
+                    <span class="contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
+                        </svg>
+                    </span>
+                    <span class="contact-meta">
+                        <strong>X (Twitter)</strong>
+                        <small>@yichuanit</small>
+                    </span>
+                </a>
+                <!-- 微博卡片 -->
+                <a class="contact-card" data-copy="义川先森" href="https://weibo.com/义川先森" target="_blank" rel="noreferrer" style="--c:#e6162d">
+                    <span class="contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10.1 13.6c-2.06 0-3.73-1.23-3.73-2.75s1.67-2.75 3.73-2.75 3.73 1.23 3.73 2.75-1.67 2.75-3.73 2.75zm9.2-7.1c-.3-.9-1.4-1.5-2.4-1.2-.3.1-.6-.1-.7-.4-.1-.3.1-.6.4-.7 1.5-.5 3.1.4 3.6 1.9.1.3-.1.6-.4.7-.1 0-.2.1-.3.1-.2 0-.4-.1-.5-.4z" />
+                            <path d="M20.8 4.2c-.7-2.1-3-3.3-5.1-2.6-.5.2-1.1-.1-1.3-.6-.2-.5.1-1.1.6-1.3 3-1 6.3.7 7.3 3.8.2.5-.1 1.1-.6 1.3-.1 0-.2.1-.3.1-.4 0-.8-.2-.9-.6z" />
+                            <path d="M9.7 19.4c-4.2 0-7.6-2.5-7.6-5.6 0-3.4 4-6.2 9.1-6.2 5 0 9.1 2.8 9.1 6.2 0 2.5-2.5 4.8-6 5.5-.5 1.3-1.9 2.2-3.5 2.2-2 0-3.6-1.3-3.7-3 0-.3.2-.6.6-.6.3 0 .6.2.6.6.1 1 1.1 1.8 2.4 1.8 1.3 0 2.4-.9 2.4-2 0-.3.2-.5.5-.6 3-.4 5.1-2.2 5.1-4 0-2.6-3.6-4.9-7.9-4.9-4.4 0-7.9 2.3-7.9 4.9 0 2.2 2.5 4.2 5.8 4.7.3 0 .6.3.5.7-.1.3-.3.5-.6.5z" />
+                        </svg>
+                    </span>
+                    <span class="contact-meta">
+                        <strong>微博</strong>
+                        <small>义川先森</small>
+                    </span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <p>© <span class="current-year"></span> 义川先森</p>
+        <p>DESIGNED &amp; BUILT WITH VANILLA WEB</p>
+    </footer>
+
+    <!-- 搜索弹窗 -->
+    <div class="search-dialog" id="searchDialog" aria-hidden="true">
+        <div class="search-panel" role="dialog" aria-modal="true">
+            <div class="search-field">
+                <span></span>
+                <input id="globalSearchInput" type="search" placeholder="搜索项目、技术栈…">
+                <button id="clearGlobalSearch" type="button">×</button>
+                <kbd>ESC</kbd>
+            </div>
+            <p>输入后按回车，跳转到项目页查看结果。</p>
+        </div>
+    </div>
+
+    <!-- 外部JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
